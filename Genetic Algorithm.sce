@@ -220,12 +220,12 @@ endfunction
 *   Retorna uma nova geração de individuos
 *   - A nova geração é gerada por meio de:
 *        1 - Cruzamento: dois pais são selecionados para o cruzamento
-            onde o filho tem seus parametros compostos por meio de
-            herança de ambos os pais
-         2 - Mutação: O individuo sofre mutação e tem um de seus 
-            parametros alterados de forma aleatória
-         3 - Elitismo: O melhor individuo de cada geração - a elite -
-            permanece inalterado para a próxima geração
+*           onde o filho tem seus parametros compostos por meio de
+*           herança de ambos os pais
+*        2 - Mutação: O individuo sofre mutação e tem um de seus 
+*           parametros alterados de forma aleatória
+*        3 - Elitismo: O melhor individuo de cada geração - a elite -
+*           permanece inalterado para a próxima geração
 */
 function newPopulation = getNewGen(population)
     probability = normalize(getAllFitness(population));
