@@ -1,10 +1,10 @@
 numBits = 10;           // numero de bits para cada parametro
 minBound = 0;           // menor valor que um parametro pode assumir
 maxBound = 20;          // maior valor que um parametro pode assumir
-popSize = 10;           // tamanho da população
+popSize = 30;           // tamanho da população
 nGenerations = 100;     // numero de gerações
 nSamples = 100;         // numero de amostras para determinação do fitness
-tSamples = 0.1;         // tempo entre as amostras
+tSamples = 1;           // tempo entre as amostras
 mutateRate = 1;         // probabilidade de mutação
 crossoverRate = 0.8;    // probabilidade de cruzamento
 
@@ -239,11 +239,26 @@ function newPopulation = getNewGen(population)
 endfunction
 
 /*
+*   Plota o gráfico de resposta ao degrau do 
+*       sistema controlado
+*/
+function plotResponseGraph(PID)
+    s = poly(0, 's');
+    feedback = syslin('c', s/s);
+    GS = (HS*PID)/.feedback;
+    t = 0:tSamples:nSamples*tSamples
+    answer = csim('step', t, GS);
+    plot(t, answer);
+endfunction
+
+/*
 *    Função que executa todo o processo do algoritmo genetico
 *    - Deve ser chamada tendo como parametro a
 *       função de transferencia a ser controlada
 */
+
 function PID = geneticAlgorithm(HS)
+    timer();
     population = generatePopInitial(popSize);
     for i = 1:nGenerations
         population = getNewGen(population);
@@ -253,7 +268,8 @@ function PID = geneticAlgorithm(HS)
         
     end
     parameters = getBest(population);
-    disp(parameters)
     PID = transformToPID(parameters);
+    plotResponseGraph(PID);
+    disp(timer());
 endfunction
 
